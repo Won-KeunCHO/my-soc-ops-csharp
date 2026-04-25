@@ -6,29 +6,32 @@ public static class Questions
 
     public static readonly List<string> QuestionsList = new()
     {
-        "bikes to work",
-        "has lived in another country",
-        "has a pet",
-        "prefers tea over coffee",
-        "plays an instrument",
-        "speaks more than 2 languages",
-        "has run a marathon",
-        "was born in a different state",
-        "has met a celebrity",
-        "can juggle",
-        "has been skydiving",
-        "loves cooking",
-        "has a garden",
-        "has traveled to Asia",
-        "is left-handed",
-        "has a twin",
-        "plays video games",
-        "does yoga",
-        "has a hidden talent",
-        "loves spicy food",
-        "has been on TV",
-        "collects something unique",
-        "has read a book this month",
-        "knows sign language"
+        // Easy wins (~50%)
+        "knows Pikachu's name",
+        "has played a Pokémon game",
+        "knows what a Poké Ball is",
+        "can name a starter Pokémon",
+        "has watched the Pokémon anime",
+        "knows what 'evolve' means in Pokémon",
+        "has caught a Pokémon in Pokémon GO",
+        "can name a Legendary Pokémon",
+        "knows what type beats Water",
+        "knows Ash's partner Pokémon",
+        "has owned a Pokémon game cartridge",
+        // Medium
+        "can name all 3 Kanto starters",
+        "knows what a shiny Pokémon is",
+        "has battled a friend in Pokémon",
+        "knows the full Pokérap (or tried)",
+        "can name a Pokémon from every generation",
+        "knows what EV training is",
+        "has a favourite Eevee evolution",
+        "has completed a Pokédex (any game)",
+        "knows what a Nuzlocke run is",
+        // Bold / wildcards
+        "do your best Pikachu impression — right now",
+        "challenge someone to name a Pokémon for every letter A–Z",
+        "teach the group one Pokémon type matchup",
+        "name 10 Pokémon in 10 seconds"
     };
 }

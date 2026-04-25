@@ -24,11 +24,47 @@ public class BingoLogicService
     }
 
     /// <summary>
-    /// Generate a new 5x5 bingo board
+    /// Get the question list for a given theme
+    /// </summary>
+    private static List<string> GetQuestionsForTheme(QuestionTheme theme)
+    {
+        return theme switch
+        {
+            QuestionTheme.Pokemon => Questions.QuestionsList,
+            QuestionTheme.TechLife => TechQuestions.QuestionsList,
+            _ => Questions.QuestionsList
+        };
+    }
+
+    /// <summary>
+    /// Get the free space text for a given theme
+    /// </summary>
+    private static string GetFreeSpaceText(QuestionTheme theme)
+    {
+        return theme switch
+        {
+            QuestionTheme.Pokemon => Questions.FREE_SPACE,
+            QuestionTheme.TechLife => TechQuestions.FREE_SPACE,
+            _ => Questions.FREE_SPACE
+        };
+    }
+
+    /// <summary>
+    /// Generate a new 5x5 bingo board with default Pokemon theme
     /// </summary>
     public static List<BingoSquareData> GenerateBoard()
     {
-        var shuffledQuestions = ShuffleArray(Questions.QuestionsList).Take(24).ToList();
+        return GenerateBoard(QuestionTheme.Pokemon);
+    }
+
+    /// <summary>
+    /// Generate a new 5x5 bingo board with specified theme
+    /// </summary>
+    public static List<BingoSquareData> GenerateBoard(QuestionTheme theme)
+    {
+        var questionList = GetQuestionsForTheme(theme);
+        var freeSpaceText = GetFreeSpaceText(theme);
+        var shuffledQuestions = ShuffleArray(questionList).Take(24).ToList();
         var board = new List<BingoSquareData>();
 
         int questionIndex = 0;
@@ -39,7 +75,7 @@ public class BingoLogicService
                 board.Add(new BingoSquareData
                 {
                     Id = i,
-                    Text = Questions.FREE_SPACE,
+                    Text = freeSpaceText,
                     IsMarked = true,
                     IsFreeSpace = true
                 });

@@ -7,11 +7,13 @@ namespace SocOps.Services;
 public class BingoGameService
 {
     private const string STORAGE_KEY = "bingo-game-state";
-    private const int STORAGE_VERSION = 1;
+    private const int STORAGE_VERSION = 2;
 
     private readonly IJSRuntime _jsRuntime;
 
     public GameState CurrentGameState { get; private set; } = GameState.Start;
+    public GameMode CurrentGameMode { get; private set; } = GameMode.Bingo;
+    public QuestionTheme CurrentTheme { get; private set; } = QuestionTheme.Pokemon;
     public List<BingoSquareData> Board { get; private set; } = new();
     public BingoLine? WinningLine { get; private set; }
     public HashSet<int> WinningSquareIds => BingoLogicService.GetWinningSquareIds(WinningLine);
@@ -29,14 +31,35 @@ public class BingoGameService
         await LoadGameStateAsync();
     }
 
-    public void StartGame()
+    public void SelectTheme(QuestionTheme theme)
     {
-        Board = BingoLogicService.GenerateBoard();
-        WinningLine = null;
-        CurrentGameState = GameState.Playing;
+        CurrentTheme = theme;
+        CommitState();
+    }
+
+    public void StartGame() => StartGame(GameMode.Bingo);
+
+    public void StartGame(GameMode mode = GameMode.Bingo)
+    {
+        CurrentGameMode = mode;
+        if (mode == GameMode.Bingo)
+        {
+            Board = BingoLogicService.GenerateBoard(CurrentTheme);
+            WinningLine = null;
+            CurrentGameState = GameState.Playing;
+        }
+        else
+        {
+            CurrentGameState = GameState.ScavengerHunt;
+        }
         ShowBingoModal = false;
-        _ = SaveGameStateAsync(); // Fire and forget
-        NotifyStateChanged();
+        CommitState();
+    }
+
+    public void StartGame(QuestionTheme theme)
+    {
+        CurrentTheme = theme;
+        StartGame(GameMode.Bingo);
     }
 
     public void HandleSquareClick(int squareId)
@@ -55,8 +78,7 @@ public class BingoGameService
             }
         }
 
-        _ = SaveGameStateAsync(); // Fire and forget
-        NotifyStateChanged();
+        CommitState();
     }
 
     public void ResetGame()
@@ -65,13 +87,18 @@ public class BingoGameService
         Board = new();
         WinningLine = null;
         ShowBingoModal = false;
-        _ = SaveGameStateAsync(); // Fire and forget
-        NotifyStateChanged();
+        CommitState();
     }
 
     public void DismissModal()
     {
         ShowBingoModal = false;
+        NotifyStateChanged();
+    }
+
+    private void CommitState()
+    {
+        _ = SaveGameStateAsync();
         NotifyStateChanged();
     }
 
@@ -88,6 +115,8 @@ public class BingoGameService
                 if (data != null && data.Version == STORAGE_VERSION)
                 {
                     CurrentGameState = data.GameState;
+                    CurrentGameMode = data.GameMode;
+                    CurrentTheme = data.Theme;
                     Board = data.Board;
                     WinningLine = data.WinningLine;
                 }
@@ -107,6 +136,8 @@ public class BingoGameService
             {
                 Version = STORAGE_VERSION,
                 GameState = CurrentGameState,
+                GameMode = CurrentGameMode,
+                Theme = CurrentTheme,
                 Board = Board,
                 WinningLine = WinningLine
             };
@@ -123,6 +154,8 @@ public class BingoGameService
     {
         public int Version { get; set; }
         public GameState GameState { get; set; }
+        public GameMode GameMode { get; set; }
+        public QuestionTheme Theme { get; set; } = QuestionTheme.Pokemon;
         public List<BingoSquareData> Board { get; set; } = new();
         public BingoLine? WinningLine { get; set; }
     }

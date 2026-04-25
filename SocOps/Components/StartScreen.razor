@@ -1,3 +1,5 @@
+@using SocOps.Models
+
 <section class="screen screen-start">
     <div class="ambient-glow"></div>
     <div class="floating-shapes">
@@ -20,9 +22,27 @@
             <p class="brand-tagline">Find your people. Get five in a row. Make networking fun.</p>
 
             <div class="cta-button-group">
-                <button @onclick="OnStart" class="btn btn-primary btn-pulse">
+                <button @onclick="() => HandleStart(QuestionTheme.Pokemon)" class="btn btn-primary btn-pulse">
                     <span class="btn-text">Play Now</span>
                     <span class="btn-icon">→</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="theme-selector">
+            <p class="theme-selector-label">or choose a theme:</p>
+            <div class="theme-buttons">
+                <button @onclick="() => HandleStart(QuestionTheme.Pokemon)" 
+                        class="theme-btn @(SelectedTheme == QuestionTheme.Pokemon ? "theme-btn-active" : "")">
+                    <span class="theme-icon">🎮</span>
+                    <span class="theme-name">Pokémon</span>
+                    <span class="theme-desc">Classic</span>
+                </button>
+                <button @onclick="() => HandleStart(QuestionTheme.TechLife)" 
+                        class="theme-btn @(SelectedTheme == QuestionTheme.TechLife ? "theme-btn-active" : "")">
+                    <span class="theme-icon">💻</span>
+                    <span class="theme-name">Tech Life</span>
+                    <span class="theme-desc">New</span>
                 </button>
             </div>
         </div>
@@ -64,5 +84,13 @@
 
 @code {
     [Parameter]
-    public EventCallback OnStart { get; set; }
+    public EventCallback<QuestionTheme> OnStartWithTheme { get; set; }
+
+    public QuestionTheme SelectedTheme { get; private set; } = QuestionTheme.Pokemon;
+
+    private async Task HandleStart(QuestionTheme theme)
+    {
+        SelectedTheme = theme;
+        await OnStartWithTheme.InvokeAsync(theme);
+    }
 }
