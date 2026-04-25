@@ -1,0 +1,31 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.{cs,razor}]
+indent_style = space
+indent_size = 4
+
+# Unused variables — report as warning
+dotnet_diagnostic.CS0219.severity = warning
+dotnet_diagnostic.IDE0059.severity = warning
+
+# Unused parameters
+dotnet_diagnostic.IDE0060.severity = warning
+
+# Async/await: use async method when awaiting (prefer await over .Result / .Wait())
+dotnet_diagnostic.CA2007.severity = suggestion
+dotnet_diagnostic.CA1849.severity = warning
+
+# Async methods that don't actually await anything
+dotnet_diagnostic.CS1998.severity = warning
+
+# Remove unnecessary using directives
+dotnet_diagnostic.IDE0005.severity = warning
+
+[*.md]
+trim_trailing_whitespace = false
