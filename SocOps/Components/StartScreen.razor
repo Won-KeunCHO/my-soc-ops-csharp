@@ -1,24 +1,66 @@
-<div class="flex flex-col items-center justify-center min-h-full p-6 bg-gray-50">
-    <div class="text-center max-w-sm">
-        <h1 class="text-4xl font-bold text-gray-900 mb-2">Soc Ops</h1>
-        <p class="text-lg text-gray-600 mb-8">Social Bingo</p>
+<section class="screen screen-start">
+    <div class="ambient-glow"></div>
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+    </div>
 
-        <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-200 mb-8">
-            <h2 class="font-semibold text-gray-800 mb-3">How to play</h2>
-            <ul class="text-left text-gray-600 text-sm space-y-2">
-                <li>• Find people who match the questions</li>
-                <li>• Tap a square when you find a match</li>
-                <li>• Get 5 in a row to win!</li>
-            </ul>
+    <div class="landing-container rise-in">
+        <div class="hero-section">
+            <div class="badge-pill">🎲 Social Mixer Game</div>
+            
+            <h1 class="brand-title">
+                <span class="title-word">Break</span>
+                <span class="title-word">the</span>
+                <span class="title-word">Ice</span>
+            </h1>
+            
+            <p class="brand-tagline">Find your people. Get five in a row. Make networking fun.</p>
+
+            <div class="cta-button-group">
+                <button @onclick="OnStart" class="btn btn-primary btn-pulse">
+                    <span class="btn-text">Play Now</span>
+                    <span class="btn-icon">→</span>
+                </button>
+            </div>
         </div>
 
-        <button
-            @onclick="OnStart"
-            class="w-full bg-accent text-white font-semibold py-4 px-8 rounded-lg text-lg active:bg-accent-light transition-colors">
-            Start Game
-        </button>
+        <div class="features-grid">
+            <div class="feature-card feature-card-1">
+                <div class="feature-icon">🎯</div>
+                <h3>Match & Mark</h3>
+                <p>Find people matching each prompt on your card</p>
+            </div>
+            <div class="feature-card feature-card-2">
+                <div class="feature-icon">⭐</div>
+                <h3>Get Five</h3>
+                <p>Mark five in a row to win big</p>
+            </div>
+            <div class="feature-card feature-card-3">
+                <div class="feature-icon">🎉</div>
+                <h3>Call Bingo</h3>
+                <p>Shout bingo and claim your victory</p>
+            </div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <span class="stat-number">5×5</span>
+                <span class="stat-label">Grid</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">∞</span>
+                <span class="stat-label">Players</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">1</span>
+                <span class="stat-label">Min</span>
+            </div>
+        </div>
     </div>
-</div>
+</section>
 
 @code {
     [Parameter]
